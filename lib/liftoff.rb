@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'commander/import'
 require 'liftoff/xcodeproj_helper'
 require 'liftoff/git_helper'
