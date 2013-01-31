@@ -101,6 +101,9 @@ class XcodeprojHelper
         info_plist.remove_from_project
       end
     end
+
+		save_changes
+	end
   end
 
   private
