@@ -39,12 +39,43 @@ class GitHelper
     end
   end
 
+  def stage_default_changes
+    say 'Stage changes to Git'
+
+    rm(Dir['**/en.lproj/InfoPlist.strings'][0])
+
+    add('.gitattributes')
+    add('.gitignore')
+    add(Dir['**/project.pbxproj'][0])
+    add(Dir['**/contents.xcworkspacedata'][0]) 
+
+    Dir['**/Default*.png'].each do |default_image|
+      if default_image.match(/^Resources/)
+        add(default_image)
+      else
+        rm(default_image)
+      end
+    end
+  end
+
   def generate_files
     generate_gitignore
     generate_gitattributes
   end
 
   private
+
+  def add(filename)
+    if filename
+      `git add #{filename}`
+    end
+  end
+
+  def rm(filename)
+    if filename
+      `git rm #{filename}`
+    end
+  end
 
   def generate_gitignore
     say 'Writing .gitignore'
