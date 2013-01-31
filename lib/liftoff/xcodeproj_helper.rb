@@ -229,7 +229,7 @@ class XcodeprojHelper
   end
 
   def build_phase_exists_with_name(name)
-    @target.build_phases.to_a.index { |phase| defined?(phase.name) && phase.name == name }
+    @target.build_phases.to_a.index { |phase| phase.display_name == name }
   end
 
   def save_changes
