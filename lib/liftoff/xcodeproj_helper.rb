@@ -112,7 +112,9 @@ class XcodeprojHelper
   	say 'Move default images to Resources group'
   	FileUtils.mkdir_p('Resources')  	
   	Dir['**/Default*.png'].each do |default_image|
-  		FileUtils.mv(default_image, 'Resources')
+  		if not default_image.match(/^Resources/)
+  			FileUtils.cp(default_image, 'Resources')
+  		end
   	end
 
   	rsc = @project.new_group('Resources')
