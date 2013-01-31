@@ -72,6 +72,17 @@ class XcodeprojHelper
     add_shell_script_build_phase(TODO_WARNING_SCRIPT, 'Warn for TODO and FIXME comments')
   end
 
+  def move_supporting_files_group
+    say 'Moving Supporting Files group'
+    group = thing_named(@group.groups, 'Supporting Files')
+    if group
+      group.remove_from_project
+      group.path = @group.path
+      @project.main_group << group
+      save_changes
+    end
+  end
+
   private
 
   def project_group
