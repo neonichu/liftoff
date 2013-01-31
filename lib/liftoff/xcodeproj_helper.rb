@@ -1,4 +1,5 @@
 require 'xcodeproj'
+include Xcodeproj::Project::Object
 
 TODO_WARNING_SCRIPT = <<WARNING
 KEYWORDS="TODO:|FIXME:|\\?\\?\\?:|\\!\\!\\!:"
@@ -107,6 +108,20 @@ class XcodeprojHelper
   end
 
   private
+
+	def group_sort_by_type!(group)
+		group.children.sort! do |x, y|
+			if x.is_a?(PBXGroup) && y.is_a?(PBXFileReference)
+				-1
+			elsif x.is_a?(PBXFileReference) && y.is_a?(PBXGroup)
+				1
+			elsif x.respond_to?(:display_name) && y.respond_to?(:display_name)
+				x.display_name <=> y.display_name
+			else
+				0
+			end
+		end
+	end
 
   def project_group
     @project.groups.each do |group|
