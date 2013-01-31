@@ -94,6 +94,14 @@ class XcodeprojHelper
     @project_target
   end
 
+  def thing_named(things, name)
+    things.each do |thing|
+      if thing.display_name == name
+        return thing
+      end
+    end
+  end
+
   def xcode_project_file
     @xcode_project_file ||= XCODE_PROJECT_PATH.first
 
