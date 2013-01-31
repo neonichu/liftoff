@@ -83,6 +83,26 @@ class XcodeprojHelper
     end
   end
 
+  def remove_info_plist_strings
+    say 'Removing useless InfoPlist.strings file'
+
+    phase = thing_named(@target.build_phases, 'ResourcesBuildPhase')
+    if phase
+      ref = thing_named(phase.files_references, 'InfoPlist.strings')
+      if ref
+        phase.remove_file_reference(ref)
+      end
+    end
+
+    group = thing_named(@project.groups, 'Supporting Files')
+    if group
+      info_plist = thing_named(group.children, 'InfoPlist.strings')
+      if info_plist
+        info_plist.remove_from_project
+      end
+    end
+  end
+
   private
 
   def project_group
@@ -111,6 +131,7 @@ class XcodeprojHelper
         return thing
       end
     end
+    return nil
   end
 
   def xcode_project_file
