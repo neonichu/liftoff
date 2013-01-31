@@ -150,9 +150,8 @@ class XcodeprojHelper
 
 	def sort_groups(groups)
 		groups.each do |group|
-			say group.display_name
 			group_sort_by_type!(group)
-			#sort_groups(group.groups)
+			sort_groups(group.groups)
 		end
 	end
 
