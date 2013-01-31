@@ -32,8 +32,10 @@ class XcodeprojHelper
   end
 
   def treat_warnings_as_errors
-    say 'Setting GCC_TREAT_WARNINGS_AS_ERRORS for Release builds'
-    @target.build_settings('Release')['GCC_TREAT_WARNINGS_AS_ERRORS'] = 'YES'
+    say 'Setting GCC_TREAT_WARNINGS_AS_ERRORS at the project level'
+    @project.build_configurations.each do |configuration|
+      configuration.build_settings['GCC_TREAT_WARNINGS_AS_ERROR'] = 'YES'
+    end
     save_changes
   end
 
