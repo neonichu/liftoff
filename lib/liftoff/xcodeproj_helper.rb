@@ -132,6 +132,14 @@ class XcodeprojHelper
   	save_changes
   end
 
+  def set_deployment_target(version)
+    say 'Setting deployment target at the project level'
+    @project.build_configurations.each do |configuration|
+      configuration.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = version
+    end
+    save_changes
+  end
+
   private
 
   def remove_from_buildphase(buildPhase, resourceName)
