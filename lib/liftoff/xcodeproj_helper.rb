@@ -31,6 +31,7 @@ class XcodeprojHelper
     @project = Xcodeproj::Project.new(xcode_project_file)
     @target = project_target
     @group = project_group
+    @resource_build = project_resource_build_phase
   end
 
   def treat_warnings_as_errors
@@ -87,13 +88,7 @@ class XcodeprojHelper
   def remove_info_plist_strings
     say 'Removing useless InfoPlist.strings file'
 
-    phase = thing_named(@target.build_phases, 'ResourcesBuildPhase')
-    if phase
-      ref = thing_named(phase.files_references, 'InfoPlist.strings')
-      if ref
-        phase.remove_file_reference(ref)
-      end
-    end
+    remove_from_buildphase(@resource_build, 'InfoPlist.strings')
 
     group = thing_named(@project.groups, 'Supporting Files')
     if group
@@ -114,6 +109,15 @@ class XcodeprojHelper
 
   private
 
+  def remove_from_buildphase(buildPhase, resourceName)
+    if buildPhase
+      ref = thing_named(buildPhase.files_references, resourceName)
+      if ref
+        buildPhase.remove_file_reference(ref)
+      end
+    end
+  end
+
 	def group_sort_by_type!(group)
 		group.children.sort! do |x, y|
 			if x.is_a?(PBXGroup) && y.is_a?(PBXFileReference)
@@ -128,10 +132,16 @@ class XcodeprojHelper
 		end
 	end
 
+	def project_resource_build_phase
+		return thing_named(@target.build_phases, 'ResourcesBuildPhase')
+	end
+
   def project_group
     @project.groups.each do |group|
       group.path ? (return group) : true
     end
+
+    nil
   end
 
   def project_target
