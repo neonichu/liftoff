@@ -101,13 +101,13 @@ class XcodeprojHelper
 
   def add_shell_script_build_phase(script, name)
     unless build_phase_exists_with_name name
-      @target.shell_script_build_phases.new('name' => name, 'shellScript' => script)
+      @target.shell_script_build_phases.push('name' => name, 'shellScript' => script)
       save_changes
     end
   end
 
   def build_phase_exists_with_name(name)
-    @target.build_phases.to_a.index { |phase| phase.name == name }
+    @target.build_phases.to_a.index { |phase| defined?(phase.name) && phase.name == name }
   end
 
   def save_changes
