@@ -1,46 +1,17 @@
-# Liftoff [![Gem Version](https://badge.fury.io/rb/liftoff.png)](http://badge.fury.io/rb/liftoff)
+# Liftoff
 
-**Liftoff is a CLI for configuring opinionated defaults for new Xcode projects.**
+This is my version of [liftoff][1]. It does some things differently than the original:
 
-* Add default .gitignore and .gitattributes files. Read more about this in our blog post: [Xcode and git: bridging the gap][xcode-gitattributes]
-* Set the indentation level (4 spaces by default. No tabs, the way God intended)
-* Treat warnings as errors for release schemes
-* Enable [Hosey-level warnings][hosey-warnings] at the project level
-* Turn on Static Analysis for the project
-* Add a build phase shell script that [turns "TODO:" and "FIXME:" into warnings][deallocated-todo]
+* Leave indentation settings alone, tabs are great!
+* Treat warnings as errors for debug builds, too.
 
-[xcode-gitattributes]: http://robots.thoughtbot.com/post/33796217972/xcode-and-git-bridging-the-gap
-[deallocated-todo]: http://deallocatedobjects.com/posts/show-todos-and-fixmes-as-warnings-in-xcode-4
-[hosey-warnings]: http://boredzo.org/blog/archives/2009-11-07/warnings
+* Put default images into a Resources group and corresponding folder.
+* Move the Support Files group up one level.
+* Remove the unnecessary default lproj.
+* Sort all groups alphabetically.
+* Set the deployment target to iOS 5.1.
+* Stage all the changes to Git.
 
-## Installation
-
-    $ gem install liftoff
-
-## Usage
-
-Liftoff adds the `liftoff` command to your PATH. These commands are meant to be run in directories containing existing Xcode projects.
-
-```
-$ liftoff
-
-    CLI for customizing new Xcode projects
-
-    Commands:
-      all                  Run all possible commands. (Default)
-      git                  Add default .gitignore and .gitattributes files.
-      indentation          Set project indentation level.
-      releasewarnings      Treat all warnings as errors in release schemes.
-      todo                 Add a build script to treat TODO and FIXME as warnings.
-      warnings             Enable Hosey warnings.
-      analyzer             Enable Static Analysis for the project.
-      help                 Display global or [command] help documentation.
-
-    Global Options:
-      -h, --help           Display help documentation
-      -v, --version        Display version information
-      -t, --trace          Display backtrace when an error occurs
-```
 
 ## About
 
@@ -53,3 +24,6 @@ The names and logos for thoughtbot are trademarks of thoughtbot, inc.
 ## License
 
 Liftoff is Copyright (c) 2012-2013 thoughtbot, inc. It is free software, and may be redistributed under the terms specified in the LICENSE file.
+
+
+[1]: https://github.com/thoughtbot/liftoff
