@@ -29,6 +29,7 @@ class XcodeprojHelper
   def initialize
     @project = Xcodeproj::Project.new(xcode_project_file)
     @target = project_target
+    @group = project_group
   end
 
   def treat_warnings_as_errors
@@ -72,6 +73,12 @@ class XcodeprojHelper
   end
 
   private
+
+  def project_group
+    @project.groups.each do |group|
+      group.path ? (return group) : true
+    end
+  end
 
   def project_target
     if @project_target.nil?
