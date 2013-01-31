@@ -1,3 +1,4 @@
+require 'fileutils'
 require 'xcodeproj'
 include Xcodeproj::Project::Object
 
@@ -105,6 +106,28 @@ class XcodeprojHelper
 		say 'Sort all groups alphabetically'
 		sort_groups(@project.groups)  
 		save_changes 
+  end
+
+  def handle_default_images
+  	say 'Move default images to Resources group'
+  	FileUtils.mkdir_p('Resources')  	
+  	Dir['**/Default*.png'].each do |default_image|
+  		FileUtils.mv(default_image, 'Resources')
+  	end
+
+  	rsc = @project.new_group('Resources')
+  	rsc.path = 'Resources'
+  	support_files = thing_named(@project.groups, 'Supporting Files')
+  	support_files.files.each do |file|
+  		if file.display_name.match(/^Default/)
+  			remove_from_buildphase(@resource_build, file.display_name)
+  			file.remove_from_project
+
+  			@resource_build.add_file_reference(file)
+  			rsc << file
+  		end
+  	end
+  	save_changes
   end
 
   private
