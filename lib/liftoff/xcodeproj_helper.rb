@@ -105,6 +105,11 @@ class XcodeprojHelper
 
 		save_changes
 	end
+
+	def sort_all_groups
+		say 'Sort all groups alphabetically'
+		sort_groups(@project.groups)  
+		save_changes 
   end
 
   private
@@ -142,6 +147,14 @@ class XcodeprojHelper
 
     @project_target
   end
+
+	def sort_groups(groups)
+		groups.each do |group|
+			say group.display_name
+			group_sort_by_type!(group)
+			#sort_groups(group.groups)
+		end
+	end
 
   def thing_named(things, name)
     things.each do |thing|
